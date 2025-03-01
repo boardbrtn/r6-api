@@ -1,0 +1,9 @@
+{
+  "name": "r6-api",
+  "version": "1.0.0",
+  "description": "R6 Tracker API",
+  "main": "index.js",
+  "dependencies": {
+    "r6s-stats-api": "^1.3.0"
+  }
+}
