@@ -8,6 +8,28 @@ const PORT = process.env.PORT || 3000;
 // Enable CORS
 app.use(cors());
 
+// Add near the top of your server.js file
+const TIMEOUT_MS = 30000; // 30 seconds
+
+// Then in your endpoint:
+app.get('/api/general', async (req, res) => {
+  // ... existing code
+  
+  try {
+    // Add timeout handling
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Request timed out')), TIMEOUT_MS)
+    );
+    
+    const statsPromise = R6API.general(platform, username);
+    const stats = await Promise.race([statsPromise, timeoutPromise]);
+    
+    res.json(stats);
+  } catch (error) {
+    // ... error handling
+  }
+});
+
 // Simple test endpoint
 app.get('/api/test', (req, res) => {
   res.json({ message: 'API is working!' });
